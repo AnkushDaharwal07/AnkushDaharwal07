@@ -1,0 +1,19 @@
+name: Check YAML Changes
+
+on:
+  pull_request:
+    paths:
+      - path/to/your/yaml/file.yaml
+
+jobs:
+  check_yaml_changes:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Print GITHUB_REF
+        run: echo "GITHUB_REF: $GITHUB_REF"
+
+      # Add more steps here for processing the YAML changes
