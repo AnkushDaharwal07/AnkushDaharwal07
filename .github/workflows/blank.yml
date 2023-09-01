@@ -75,7 +75,7 @@ jobs:
           
           parsed_data = json.loads(data)
           previous_isolated_clusters = None
-          
+          print("hello")
           for function in parsed_data['functions']:
               isolated_clusters = function.get('isolatedClusters', [])
               if isolated_clusters != previous_isolated_clusters:
