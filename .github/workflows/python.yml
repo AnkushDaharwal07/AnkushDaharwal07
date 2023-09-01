@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - test1
+      - main 
+
 
 jobs:
   run_script:
