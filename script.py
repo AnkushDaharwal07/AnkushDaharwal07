@@ -6,8 +6,8 @@ def load_yaml(file_path):
 
 def main():
     # Load YAML data from the two files
-    yaml_data1 = load_yaml('path/to/first.yaml')
-    yaml_data2 = load_yaml('path/to/second.yaml')
+    yaml_data1 = load_yaml('functions.yaml')
+    yaml_data2 = load_yaml('functions2.yaml')
 
     # Extract the names of functions with different isolatedClusters values
     different_function_names = []
