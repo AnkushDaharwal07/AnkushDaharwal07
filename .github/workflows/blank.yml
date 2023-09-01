@@ -24,63 +24,63 @@ jobs:
       - name: Run Python script
         run: |
           python - <<EOF
-import json
-
-data = '''
-{
-  "functions": [
-    {
-      "name": "CreateAcount.v1",
-      "isolatedClusters": [
-        "java-group2"
-      ]
-    },
-    {
-      "name": "CreateAcount.v2",
-      "isolatedClusters": [
-        "java-group3"
-      ]
-    },
-    {
-      "name": "CreateAcount.v3",
-      "colocatedClusters": [
-        "java-group12"
-      ],
-      "isolatedClusters": [
-        "java-group6"
-      ]
-    },
-    {
-      "name": "CreateAcount.v4",
-      "colocatedClusters": [
-        "java-group12"
-      ],
-      "isolatedClusters": [
-        "java-group6",
-        "java-group12"
-      ]
-    },
-    {
-      "name": "CreateAcount.v5",
-      "isolatedClusters": [
-        "java-group13"
-      ],
-      "routingOptions": {
-        "mitigatorEnabled": true
-      }
-    }
-  ]
-}
-'''
-
-parsed_data = json.loads(data)
-previous_isolated_clusters = None
-
-for function in parsed_data['functions']:
-    isolated_clusters = function.get('isolatedClusters', [])
-    if isolated_clusters != previous_isolated_clusters:
-        print(f"Name: {function['name']}")
-        previous_isolated_clusters = isolated_clusters
-EOF
-
-      # Add more steps here for processing the YAML changes
+          import json
+          
+          data = '''
+          {
+            "functions": [
+              {
+                "name": "CreateAcount.v1",
+                "isolatedClusters": [
+                  "java-group2"
+                ]
+              },
+              {
+                "name": "CreateAcount.v2",
+                "isolatedClusters": [
+                  "java-group3"
+                ]
+              },
+              {
+                "name": "CreateAcount.v3",
+                "colocatedClusters": [
+                  "java-group12"
+                ],
+                "isolatedClusters": [
+                  "java-group6"
+                ]
+              },
+              {
+                "name": "CreateAcount.v4",
+                "colocatedClusters": [
+                  "java-group12"
+                ],
+                "isolatedClusters": [
+                  "java-group6",
+                  "java-group12"
+                ]
+              },
+              {
+                "name": "CreateAcount.v5",
+                "isolatedClusters": [
+                  "java-group13"
+                ],
+                "routingOptions": {
+                  "mitigatorEnabled": true
+                }
+              }
+            ]
+          }
+          '''
+          
+          parsed_data = json.loads(data)
+          previous_isolated_clusters = None
+          
+          for function in parsed_data['functions']:
+              isolated_clusters = function.get('isolatedClusters', [])
+              if isolated_clusters != previous_isolated_clusters:
+                  print(f"Name: {function['name']}")
+                  previous_isolated_clusters = isolated_clusters
+          EOF
+          
+                # Add more steps here for processing the YAML changes
