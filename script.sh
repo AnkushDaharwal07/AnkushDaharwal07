@@ -11,7 +11,7 @@ yaml_data2=$(load_yaml "functions2.yaml")
 
 # Extract the names of functions with different isolatedClusters values
 different_function_names=()
-for i in $(seq 0 $((${#yaml_data1[functions][@]} - 1))); do
+for ((i=0; i<${#yaml_data1[functions]}; i++)); do
     func1=$(echo "$yaml_data1" | jq -r ".functions[$i]")
     func2=$(echo "$yaml_data2" | jq -r ".functions[$i]")
     if [ "$(echo "$func1" | jq -r .isolatedClusters)" != "$(echo "$func2" | jq -r .isolatedClusters)" ] || \
