@@ -1,24 +1,39 @@
 #!/bin/bash
 
-# Function to extract function names from a YAML file
-extract_function_names() {
-    grep 'name:' "$1" | awk '{print $2}'
+# Function to load YAML data from a file
+load_yaml() {
+    file_path="$1"
+    yq eval ' .' "$file_path"
 }
 
-# Function to compare two lists of function names
-compare_function_names() {
-    file1="$1"
-    file2="$2"
-    
-    functions1=($(extract_function_names "$file1"))
-    functions2=($(extract_function_names "$file2"))
+# Load YAML data from the two files
+yaml_data1=$(load_yaml 'functions.yaml')
+yaml_data2=$(load_yaml 'functions2.yaml')
 
-    for func1 in "${functions1[@]}"; do
-        if [[ ! " ${functions2[@]} " =~ " $func1 " ]]; then
-            echo "Name: $func1"
-        fi
-    done
-}
+# Extract the names of functions with different isolatedClusters values
+different_function_names=()
+index=0
 
-# Compare the two YAML files
-compare_function_names 'functions.yaml' 'functions2.yaml'
+for name1 in $(echo "$yaml_data1" | jq -r '.functions[].name'); do
+    name2=$(echo "$yaml_data2" | jq -r '.functions[] | select(.name == $name1).name')
+    if [ "$name1" != "$name2" ]; then
+        continue
+    fi
+
+    func1=$(echo "$yaml_data1" | jq -r '.functions[] | select(.name == $name1)')
+    func2=$(echo "$yaml_data2" | jq -r '.functions[] | select(.name == $name2)')
+
+    if [ \
+        "$(echo "$func1" | jq -r '.isolatedClusters')" != "$(echo "$func2" | jq -r '.isolatedClusters')" -o \
+        "$(echo "$func1" | jq -r '.colocatedClusters')" != "$(echo "$func2" | jq -r '.colocatedClusters')" -o \
+        "$(echo "$func1" | jq -r '.routingOptions')" != "$(echo "$func2" | jq -r '.routingOptions')" \
+    ]; then
+        different_function_names[$index]="$name1"
+        index=$((index+1))
+    fi
+done
+
+# Print the function names with different properties
+for name in "${different_function_names[@]}"; do
+    echo "Name: $name"
+done
