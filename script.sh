@@ -1,4 +1,3 @@
-#!/bin/bash
 
 # Function to load YAML data from a file
 load_yaml() {
