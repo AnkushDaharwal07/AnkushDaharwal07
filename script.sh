@@ -25,5 +25,3 @@ done
 for name in "${different_function_names[@]}"; do
     echo "Name: $name"
 done
-
-
