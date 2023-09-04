@@ -3,7 +3,7 @@ name: Check YAML Changes
 on:
   push:
     branches:
-    - test1
+    - main
 
 jobs:
   check_yaml_changes:
