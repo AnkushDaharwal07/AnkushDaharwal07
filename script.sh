@@ -3,7 +3,7 @@
 # Function to load YAML data from a file
 load_yaml() {
     file_path="$1"
-    cat "$file_path" | yq eval -P
+    yq eval ' .' "$file_path"
 }
 
 # Load YAML data from the two files
@@ -13,12 +13,20 @@ yaml_data2=$(load_yaml 'functions2.yaml')
 # Extract the names of functions with different isolatedClusters values
 different_function_names=()
 index=0
-for i in $(jq -c -n "$yaml_data1 $yaml_data2 | .functions[] as \$f1 | .functions[] as \$f2 | select(\$f1 != \$f2) | \$f1.name"); do
-    different_function_names[$index]=$i
-    index=$((index+1))
+
+# Iterate through the function names in yaml_data1
+for name in $(echo "$yaml_data1" | jq -r '.functions[].name'); do
+    # Check if the same name exists in yaml_data2 with different properties
+    if ! echo "$yaml_data2" | jq -e --arg name "$name" \
+        '.functions[] | select(.name == $name and (.isolatedClusters != input.functions[] | select(.name == $name).isolatedClusters or
+        .colocatedClusters != input.functions[] | select(.name == $name).colocatedClusters or
+        .routingOptions != input.functions[] | select(.name == $name).routingOptions))' >/dev/null; then
+        different_function_names[$index]=$name
+        index=$((index+1))
+    fi
 done
 
-# Print the function names with different isolatedClusters, colocatedClusters, or routingOptions values
+# Print the function names with different properties
 for name in "${different_function_names[@]}"; do
     echo "Name: $name"
 done
