@@ -15,6 +15,11 @@ jobs:
 
       - name: Print GITHUB_REF
         run: echo "GITHUB_REF:${{ github.ref }}"
+
+      - name: Install yq
+        run: |
+          wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq
+          chmod +x /usr/local/bin/yq
         
       - name: Make script executable
         run: chmod +x script.sh
