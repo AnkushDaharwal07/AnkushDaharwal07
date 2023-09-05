@@ -17,7 +17,7 @@ functions:
       - java-group12
     isolatedClusters:
       - java-group6
-      - java-group12
+      - java-group5
   - name: CreateAcount.v5
     isolatedClusters:
       - java-group9
