@@ -16,6 +16,14 @@ jobs:
       - name: Get PR Branch Name
         id: get_pr_branch
         run: echo "::set-output name=branch::$(echo $GITHUB_REF | awk -F'/' '{print $3}')"
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
 
       - name: Compare functions.yaml
         id: compare
@@ -38,16 +46,7 @@ jobs:
           else
             echo "functions.yaml not found in one of the branches."
           fi
-
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.x
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pyyaml
-
+      
       - name: Run Python Script
         env:
           MAIN_FILE: ${{ steps.compare.outputs.main_file }}
@@ -55,3 +54,4 @@ jobs:
         run: |
           # Access the file paths in your Python script
           python script.py "$MAIN_FILE" "$PR_FILE"
+      
