@@ -7,7 +7,7 @@ functions:
       - java-group3
   - name: CreateAcount.v3
     colocatedClusters:
-      - java-group12
+      - java-group9
     isolatedClusters:
       - java-group6
     routingOptions:
