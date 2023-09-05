@@ -1,31 +1,43 @@
-name: Run Script on Push
+name: Compare and Process functions.yaml
 
 on:
   pull_request:
     branches:
       - main
-  push:
-    branches:
-      - main
-
 
 jobs:
-  run_script:
+  compare_and_process:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v2
-      - name: Run Your Python Script
-        env:
-          MAIN_BRANCH_FILE: functions.yaml
-          PR_BRANCH_FILE: functions.yaml
+
+      - name: Get PR Branch Name
+        id: get_pr_branch
+        run: echo "::set-output name=branch::$(echo $GITHUB_REF | awk -F'/' '{print $3}')"
+
+      - name: Compare functions.yaml
+        id: compare
         run: |
-          # Copy the main branch file
-          cp $MAIN_BRANCH_FILE functions.yaml
-          
-          # Copy the PR branch file
-          cp $PR_BRANCH_FILE functions.yaml
+          # Get the name of the PR branch
+          PR_BRANCH_NAME="${{ steps.get_pr_branch.outputs.branch }}"
+
+          # Check if the file exists in both branches
+          if [ -f "functions.yaml" ] && git show "main:${{ github.event.pull_request.base.ref }}/functions.yaml" > /dev/null 2>&1; then
+            # Compare the files
+            if git diff --no-index functions.yaml "main:${PR_BRANCH_NAME}/functions.yaml"; then
+              echo "functions.yaml is the same in both branches."
+            else
+              echo "functions.yaml is different between main and ${PR_BRANCH_NAME}."
+
+              # Pass the file paths to the Python script
+              echo "::set-output name=main_file::functions.yaml"
+              echo "::set-output name=pr_file::main:${PR_BRANCH_NAME}/functions.yaml"
+            fi
+          else
+            echo "functions.yaml not found in one of the branches."
+          fi
 
       - name: Set up Python
         uses: actions/setup-python@v2
@@ -36,5 +48,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyyaml
 
-      - name: Run Script
-        run: python script.py
+      - name: Run Python Script
+        env:
+          MAIN_FILE: ${{ steps.compare.outputs.main_file }}
+          PR_FILE: ${{ steps.compare.outputs.pr_file }}
+        run: |
+          # Access the file paths in your Python script
+          python your_script.py "$MAIN_FILE" "$PR_FILE"
