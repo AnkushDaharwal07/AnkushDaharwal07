@@ -54,4 +54,4 @@ jobs:
           PR_FILE: ${{ steps.compare.outputs.pr_file }}
         run: |
           # Access the file paths in your Python script
-          python your_script.py "$MAIN_FILE" "$PR_FILE"
+          python script.py "$MAIN_FILE" "$PR_FILE"
