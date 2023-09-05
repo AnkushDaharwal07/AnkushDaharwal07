@@ -28,7 +28,7 @@ jobs:
       - name: Run Python Script
         env:
           MAIN_FILE: functions.yaml
-          PR_FILE: ${{ github.event.pull_request.head.ref }}/functions.yaml
+          PR_FILE: functions.yaml
         run: |
           # Access the file paths in your Python script
           python script.py "$MAIN_FILE" "$PR_FILE"
