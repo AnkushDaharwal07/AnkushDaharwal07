@@ -1,9 +1,12 @@
 name: Run Script on Push
 
 on:
+  pull_request:
+    branches:
+      - main
   push:
     branches:
-      - test1
+      - main
 
 
 jobs:
@@ -13,6 +16,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Run Your Python Script
+        env:
+          MAIN_BRANCH_FILE: functions.yaml
+          PR_BRANCH_FILE: functions.yaml
+        run: |
+          # Copy the main branch file
+          cp $MAIN_BRANCH_FILE functions.yaml
+          
+          # Copy the PR branch file
+          cp $PR_BRANCH_FILE functions.yaml
 
       - name: Set up Python
         uses: actions/setup-python@v2
