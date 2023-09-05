@@ -7,8 +7,8 @@ def load_yaml(file_path):
 
 def main():
     # Load YAML data from the two files
-    main_branch_file = os.environ.get("MAIN_BRANCH_FILE")
-    pr_branch_file = os.environ.get("PR_BRANCH_FILE")
+    main_branch_file = os.environ.get("MAIN_FILE")
+    pr_branch_file = os.environ.get("PR_FILE")
     yaml_data1 = load_yaml(main_branch_file)
     yaml_data2 = load_yaml(pr_branch_file)
 
