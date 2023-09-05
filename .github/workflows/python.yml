@@ -22,7 +22,7 @@ jobs:
         run: |
           # Get the name of the PR branch
           PR_BRANCH_NAME="${{ steps.get_pr_branch.outputs.branch }}"
-
+      
           # Check if the file exists in both branches
           if [ -f "functions.yaml" ] && git show "main:${{ github.event.pull_request.base.ref }}/functions.yaml" > /dev/null 2>&1; then
             # Compare the files
@@ -30,7 +30,7 @@ jobs:
               echo "functions.yaml is the same in both branches."
             else
               echo "functions.yaml is different between main and ${PR_BRANCH_NAME}."
-
+      
               # Pass the file paths to the Python script
               echo "::set-output name=main_file::functions.yaml"
               echo "::set-output name=pr_file::main:${PR_BRANCH_NAME}/functions.yaml"
