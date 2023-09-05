@@ -1,4 +1,5 @@
 import yaml
+import os
 
 def load_yaml(file_path):
     with open(file_path, 'r') as yaml_file:
@@ -6,8 +7,10 @@ def load_yaml(file_path):
 
 def main():
     # Load YAML data from the two files
-    yaml_data1 = load_yaml('functions.yaml')
-    yaml_data2 = load_yaml('functions2.yaml')
+    main_branch_file = os.environ.get("MAIN_BRANCH_FILE")
+    pr_branch_file = os.environ.get("PR_BRANCH_FILE")
+    yaml_data1 = load_yaml(main_branch_file)
+    yaml_data2 = load_yaml(pr_branch_file)
 
     # Extract the names of functions with different isolatedClusters values
     different_function_names = []
