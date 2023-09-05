@@ -25,28 +25,29 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyyaml
 
+
       - name: Compare functions.yaml
         id: compare
         run: |
           # Get the name of the PR branch
           PR_BRANCH_NAME="${{ steps.get_pr_branch.outputs.branch }}"
-      
+
           # Check if the file exists in both branches
-          if [ -f "functions.yaml" ] && git show "main:${{ github.event.pull_request.base.ref }}/functions.yaml" > /dev/null 2>&1; then
+          if [ -f "functions.yaml" ] && [ -f "${PR_BRANCH_NAME}/functions.yaml" ]; then
             # Compare the files
-            if git diff --no-index functions.yaml "main:${PR_BRANCH_NAME}/functions.yaml"; then
+            if git diff --no-index functions.yaml "${PR_BRANCH_NAME}/functions.yaml"; then
               echo "functions.yaml is the same in both branches."
             else
               echo "functions.yaml is different between main and ${PR_BRANCH_NAME}."
-      
+
               # Pass the file paths to the Python script
               echo "::set-output name=main_file::functions.yaml"
-              echo "::set-output name=pr_file::main:${PR_BRANCH_NAME}/functions.yaml"
+              echo "::set-output name=pr_file::${PR_BRANCH_NAME}/functions.yaml"
             fi
           else
             echo "functions.yaml not found in one of the branches."
           fi
-      
+
       - name: Run Python Script
         env:
           MAIN_FILE: ${{ steps.compare.outputs.main_file }}
@@ -54,4 +55,3 @@ jobs:
         run: |
           # Access the file paths in your Python script
           python script.py "$MAIN_FILE" "$PR_FILE"
-      
