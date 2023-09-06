@@ -23,9 +23,9 @@ jobs:
         run: |
           # Assuming the main branch is 'main' (replace with your branch name)
           MAIN_BRANCH="main"
-
-          # Use 'git diff' to compare code changes
-          git fetch origin $MAIN_BRANCH
-          git diff origin/$MAIN_BRANCH...$GITHUB_HEAD_REF
+          git checkout $MAIN_BRANCH
+          git fetch origin  ${{ github.head_ref }}
+          git checkout  ${{ github.head_ref }}
+          git diff --name-only \$(git merge-base main  ${{ github.head_ref }})
 
         shell: bash
