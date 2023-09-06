@@ -1,6 +1,9 @@
 name: PR Comparison Workflow
 
 on:
+  push:
+    branches:
+      - test1
   pull_request:
     types:
       - opened
