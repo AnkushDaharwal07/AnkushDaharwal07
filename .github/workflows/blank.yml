@@ -1,10 +1,6 @@
 name: PR Comparison Workflow
 
 on:
-  push:
-    branches:
-      - test1
-      - main
   pull_request:
     types:
       - opened
@@ -28,8 +24,7 @@ jobs:
           # Assuming the main branch is 'main' (replace with your branch name)
           MAIN_BRANCH="main"
           git checkout $MAIN_BRANCH
-          git fetch origin  ${{ github.head_ref }}
-          git checkout  ${{ github.head_ref }}
-          git diff --name-only \$(git merge-base main  ${{ github.head_ref }})
+          git  checkout $MAIN_BRANCH ; git fetch origin ${{ github.head_ref }}; git checkout ${{ github.head_ref }};\
+          git diff $(git merge-base $MAIN_BRANCH ${{ github.head_ref }}) -- functions.yaml
 
         shell: bash
