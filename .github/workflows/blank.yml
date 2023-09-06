@@ -19,6 +19,15 @@ jobs:
       - name: Display PR branch name
         run: echo "PR branch is ${{ github.head_ref }}"
 
+      - name: Debug
+        run: |
+          echo "Current branch: $(git branch)"
+          echo "Available branches: $(git branch -a)"
+          git remote -v
+      - name: Set Remote URL
+        run: |
+          git remote set-url origin "https://github.com/AnkushDaharwal07/AnkushDaharwal07.git"
+  
       - name: Compare code changes
         run: |
           # Navigate to the repository directory
