@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - test1
+      - main
   pull_request:
     types:
       - opened
