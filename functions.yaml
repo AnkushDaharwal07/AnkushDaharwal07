@@ -23,10 +23,19 @@ functions:
       - java-group9
     routingOptions:
       mitigatorEnabled: true
-  - name: CreateAcount.v5
-    colocatedClusters:
-      - java-group12
+  - name: CreateAcount.v6
     isolatedClusters:
-      - java-group6
-      - java-group23
-      
+      - java-group3
+    routingOptions:
+      mitigatorEnabled: true
+  - name: CreateAcount.v3
+    isolatedClusters:
+      - java-group3
+    routingOptions:
+      mitigatorEnabled: true
+  - name: CreateAcount.v4
+    isolatedClusters:
+      - java-group3
+    routingOptions:
+      mitigatorEnabled: true
+
