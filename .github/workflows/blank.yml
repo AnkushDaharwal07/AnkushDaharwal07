@@ -1,36 +1,29 @@
-name: Check YAML Changes
+name: PR Comparison Workflow
 
 on:
-  push:
-    branches:
-    - test1
+  pull_request:
+    types:
+      - opened
+      - synchronize
 
 jobs:
-  check_yaml_changes:
+  compare-code:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Print GITHUB_REF
-        run: echo "GITHUB_REF:${{ github.ref }}"
+      - name: Display PR branch name
+        run: echo "PR branch is ${{ github.head_ref }}"
 
-      - name: Get modified files
-        id: modified-files
+      - name: Compare code changes
         run: |
-          echo "FILES=$(git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }})" >> $GITHUB_ENV
-          echo "file $FILES"
-          echo "env  $GITHUB_ENV "
+          # Assuming the main branch is 'main' (replace with your branch name)
+          MAIN_BRANCH="main"
+
+          # Use 'git diff' to compare code changes
+          git fetch origin $MAIN_BRANCH
+          git diff origin/$MAIN_BRANCH...$GITHUB_HEAD_REF
+
         shell: bash
-
-      - name: Install yq
-        run: |
-          wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq
-          chmod +x /usr/local/bin/yq
-        
-      - name: Make script executable
-        run: chmod +x script.sh
-
-      - name: Run Script
-        run: ./script.sh
