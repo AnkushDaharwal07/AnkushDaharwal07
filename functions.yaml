@@ -38,4 +38,10 @@ functions:
       - java-group3
     routingOptions:
       mitigatorEnabled: true
+  - name: CreateAcount.v7
+    colocatedClusters:
+      - java-group16
+    isolatedClusters:
+      - java-group6
+      - java-group13
 
