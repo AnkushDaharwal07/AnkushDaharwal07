@@ -33,3 +33,4 @@ functions:
       - java-group3
     routingOptions:
       mitigatorEnabled: true
+
