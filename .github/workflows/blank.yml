@@ -19,12 +19,19 @@ jobs:
       - name: Display PR branch name
         run: echo "PR branch is ${{ github.head_ref }}"
 
+      - name: Debug
+        run: |
+          echo "Current branch: $(git branch)"
+          echo "Available branches: $(git branch -a)"
+          git remote -v
+      - name: Set Remote URL
+        run: |
+          git remote set-url origin "https://github.com/AnkushDaharwal07/AnkushDaharwal07.git"
+  
       - name: Compare code changes
         run: |
-          # Assuming the main branch is 'main' (replace with your branch name)
-          MAIN_BRANCH="main"
-          git checkout $MAIN_BRANCH
-          git  checkout main ; git fetch origin ${{ github.head_ref }}; git checkout ${{ github.head_ref }};
-          git diff $(git merge-base main ${{ github.head_ref }}) -- functions.yaml
-
-        shell: bash
+          # Navigate to the repository directory
+          cd $GITHUB_WORKSPACE
+          git  checkout main ; git fetch origin test2; git checkout test2;
+          git diff $(git merge-base main test2) -- functions.yaml
+        
