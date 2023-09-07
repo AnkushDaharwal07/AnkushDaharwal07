@@ -23,4 +23,9 @@ functions:
       - java-group9
     routingOptions:
       mitigatorEnabled: true
+  - name: CreateAcount.v4
+    isolatedClusters:
+      - java-group9
+    routingOptions:
+      mitigatorEnabled: true
       
