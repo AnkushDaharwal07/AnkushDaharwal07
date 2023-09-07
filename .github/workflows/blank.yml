@@ -36,9 +36,13 @@ jobs:
           # Navigate to the repository directory
           cd $GITHUB_WORKSPACE
           ls
-          git  checkout main 
-          git pull origin main 
-          git pull origin test2
           git checkout test2
+          git fetch origin main
+          git fetch origin test2
+          
+          # git  checkout main 
+          # git pull origin main 
+          # git pull origin test2
+          # git checkout test2
           git diff $(git merge-base main test2) -- functions.yaml
         
