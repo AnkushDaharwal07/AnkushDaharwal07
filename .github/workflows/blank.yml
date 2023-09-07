@@ -5,6 +5,8 @@ on:
     types:
       - opened
       - synchronize
+    branches:
+      - main
 
 jobs:
   compare-code:
@@ -17,13 +19,26 @@ jobs:
       - name: Display PR branch name
         run: echo "PR branch is ${{ github.head_ref }}"
 
+      - name: Checkout test2 branch
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Debug
+        run: |
+          echo "Current branch: $(git branch)"
+          echo "Available branches: $(git branch -a)"
+          git remote -v
+      # - name: Set Remote URL
+      #   run: |
+      #     git remote add origin "https://github.com/AnkushDaharwal07/AnkushDaharwal07.git"
+      - name: Fetch 'main' and 'test2' branches
+        run: |
+          git fetch origin main
+          git fetch origin ${{ github.head_ref }}
+
       - name: Compare code changes
         run: |
-          # Assuming the main branch is 'main' (replace with your branch name)
-          MAIN_BRANCH="main"
-
-          # Use 'git diff' to compare code changes
-          git fetch origin $MAIN_BRANCH
-          git diff origin/$MAIN_BRANCH...$GITHUB_HEAD_REF
-
-        shell: bash
+          # Navigate to the repository directory
+          git diff ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} -- functions.yaml
+        
