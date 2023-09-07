@@ -19,25 +19,22 @@ jobs:
       - name: Display PR branch name
         run: echo "PR branch is ${{ github.head_ref }}"
 
-      - name: Checkout test2 branch
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.head_ref }}
-
       - name: Debug
         run: |
           echo "Current branch: $(git branch)"
           echo "Available branches: $(git branch -a)"
+
+      - name: Set Remote URL
+        run: |
+          git remote add forked "https://github.com/Apalagiri1304/AnkushDaharwal07.git"
           git remote -v
-      # - name: Set Remote URL
-      #   run: |
-      #     git remote add origin "https://github.com/AnkushDaharwal07/AnkushDaharwal07.git"
+          
       - name: Fetch 'main' and 'test2' branches
         run: |
           git fetch origin main
-          git fetch origin ${{ github.head_ref }}
+          git fetch forked updatefunction
 
       - name: Compare code changes
         run: |
           # Navigate to the repository directory
-          git diff ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} -- functions.yaml
+          git diff origin/main..forked/updatefunction -- functions.yaml
