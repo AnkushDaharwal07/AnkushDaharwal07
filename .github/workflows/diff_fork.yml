@@ -1,0 +1,40 @@
+name: PR Comparison Workflow
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+    branches:
+      - main
+
+jobs:
+  compare-code:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Display PR branch name
+        run: echo "PR branch is ${{ github.head_ref }}"
+
+      - name: Debug
+        run: |
+          echo "Current branch: $(git branch)"
+          echo "Available branches: $(git branch -a)"
+
+      - name: Set Remote URL
+        run: |
+          git remote add forked "https://github.com/Apalagiri1304/AnkushDaharwal07.git"
+          git remote -v
+          
+      - name: Fetch 'main' and 'test2' branches
+        run: |
+          git fetch origin main
+          git fetch forked updatefunction
+
+      - name: Compare code changes
+        run: |
+          # Navigate to the repository directory
+          git diff origin/main..forked/updatefunction -- functions.yaml
