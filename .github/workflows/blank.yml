@@ -36,28 +36,8 @@ jobs:
         run: |
           git fetch origin main
           git fetch origin ${{ github.head_ref }}
-      - name: Run Git Diff
-        id: git-diff
+
+      - name: Compare code changes
         run: |
           # Navigate to the repository directory
-          cd $GITHUB_WORKSPACE
-
-          # Run the 'git diff' command comparing the base and head commits of the PR
           git diff ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} -- functions.yaml
-
-      - name: Extract Function Name
-        id: extract-function-name
-        run: |
-          # Use 'grep' to find the line containing the function name
-          function_line=$(echo "${{ steps.git-diff.outputs.stdout }}" | grep "+  - name:")
-
-          # Extract the function name from the line
-          function=$(echo "$function_line" | awk -F': ' '{print $2}')
-
-          # Set the extracted function name as an output
-          echo "::set-output name=function::$function"
-
-      - name: Print Extracted Function Name
-        run: |
-          # Access the extracted function name from the previous step's output
-          echo "Extracted Function Name: ${{ steps.extract-function-name.outputs.function }}"
