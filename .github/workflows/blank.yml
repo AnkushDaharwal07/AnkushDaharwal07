@@ -1,9 +1,6 @@
 name: PR Comparison Workflow
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     types:
       - opened
@@ -25,7 +22,7 @@ jobs:
       - name: Checkout test2 branch
         uses: actions/checkout@v2
         with:
-          ref: test2
+          ref: ${{ github.head_ref }}
 
       - name: Debug
         run: |
