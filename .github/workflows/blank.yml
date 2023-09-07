@@ -25,7 +25,7 @@ jobs:
       - name: Checkout test2 branch
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.head_ref }}
+          ref: test2
 
       - name: Debug
         run: |
