@@ -22,6 +22,11 @@ jobs:
       - name: Display PR branch name
         run: echo "PR branch is ${{ github.head_ref }}"
 
+      - name: Checkout test2 branch
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
       - name: Debug
         run: |
           echo "Current branch: $(git branch)"
