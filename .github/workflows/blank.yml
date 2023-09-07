@@ -24,9 +24,9 @@ jobs:
           echo "Current branch: $(git branch)"
           echo "Available branches: $(git branch -a)"
           git remote -v
-      - name: Set Remote URL
-        run: |
-          git remote add origin "https://github.com/AnkushDaharwal07/AnkushDaharwal07.git"
+      # - name: Set Remote URL
+      #   run: |
+      #     git remote add origin "https://github.com/AnkushDaharwal07/AnkushDaharwal07.git"
   
       - name: Compare code changes
         run: |
