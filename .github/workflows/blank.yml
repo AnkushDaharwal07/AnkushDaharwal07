@@ -1,6 +1,9 @@
 name: PR Comparison Workflow
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     types:
       - opened
@@ -32,6 +35,7 @@ jobs:
         run: |
           # Navigate to the repository directory
           cd $GITHUB_WORKSPACE
+          ls
           git  checkout main ;  git checkout test2; git pull origin test2
           git diff $(git merge-base main test2) -- functions.yaml
         
