@@ -57,13 +57,13 @@ jobs:
           # Set the values for MAIN_FILE and PR_FILE
           MAIN_FILE="${{ github.event.pull_request.base.sha }} functions.yaml"
           PR_FILE="${{ github.event.pull_request.head.sha }} functions.yaml"
-          echo "::set-output name=main_file::$MAIN_FILE"
-          echo "::set-output name=pr_file::$PR_FILE"
+          echo "MAIN_FILE=$MAIN_FILE" >> $GITHUB_ENV
+          echo "PR_FILE=$PR_FILE" >> $GITHUB_ENV
       
       - name: Run Python Script
         env:
-          MAIN_FILE: ${{ steps.set-file-paths.outputs.main_file }}
-          PR_FILE: ${{ steps.set-file-paths.outputs.pr_file }}
+          MAIN_FILE: ${{ env.MAIN_FILE }}
+          PR_FILE: ${{ env.PR_FILE }}
         run: |
           # Access the file paths in your Python script
-          python script.py "$MAIN_FILE" "$PR_FILE"
+          python your_script.py "$MAIN_FILE" "$PR_FILE"
