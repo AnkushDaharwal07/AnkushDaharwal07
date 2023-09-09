@@ -32,7 +32,7 @@ jobs:
       # - name: Set Remote URL
       #   run: |
       #     git remote add origin "https://github.com/AnkushDaharwal07/AnkushDaharwal07.git"
-      - name: Fetch 'main' and 'test2' branches
+      - name: Fetch 'main' and '${{ github.head_ref }}' branches
         run: |
           git fetch origin main
           git fetch origin ${{ github.head_ref }}
@@ -41,3 +41,29 @@ jobs:
         run: |
           # Navigate to the repository directory
           git diff ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} -- functions.yaml
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+
+      - name: Set MAIN_FILE and PR_FILE
+        id: set-file-paths
+        run: |
+          # Set the values for MAIN_FILE and PR_FILE
+          MAIN_FILE="${{ github.event.pull_request.base.sha }} functions.yaml"
+          PR_FILE="${{ github.event.pull_request.head.sha }} functions.yaml"
+          echo "::set-output name=main_file::$MAIN_FILE"
+          echo "::set-output name=pr_file::$PR_FILE"
+      
+      - name: Run Python Script
+        env:
+          MAIN_FILE: ${{ steps.set-file-paths.outputs.main_file }}
+          PR_FILE: ${{ steps.set-file-paths.outputs.pr_file }}
+        run: |
+          # Access the file paths in your Python script
+          python script.py "$MAIN_FILE" "$PR_FILE"
