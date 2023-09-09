@@ -55,11 +55,11 @@ jobs:
         id: set-file-paths
         run: |
           # Set the values for MAIN_FILE and PR_FILE
-          MAIN_FILE="${{ github.event.pull_request.base.sha }} functions.yaml"
-          PR_FILE="${{ github.event.pull_request.head.sha }} functions.yaml"
+          MAIN_FILE="${{ github.workspace }}/${{ github.event.pull_request.base.sha }}/functions.yaml"
+          PR_FILE="${{ github.workspace }}/${{ github.event.pull_request.head.sha }}/functions.yaml"
           echo "MAIN_FILE=$MAIN_FILE" >> $GITHUB_ENV
           echo "PR_FILE=$PR_FILE" >> $GITHUB_ENV
-      
+          
       - name: Run Python Script
         env:
           MAIN_FILE: ${{ env.MAIN_FILE }}
