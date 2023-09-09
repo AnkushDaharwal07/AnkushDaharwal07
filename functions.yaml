@@ -85,3 +85,10 @@ functions:
     isolatedClusters:
       - java-group6
       - java-group13
+  - name: CreateAcount.v5
+    colocatedClusters:
+      - java-group15
+    isolatedClusters:
+      - java-group6
+    routingOptions:
+      mitigatorEnabled: false
