@@ -9,6 +9,17 @@ def main():
     # Load YAML data from the two files
     main_branch_file = os.environ.get("MAIN_FILE")
     pr_branch_file = os.environ.get("PR_FILE")
+
+    # Extract the filenames from the full paths
+    main_branch_filename = os.path.basename(main_branch_file)
+    pr_branch_filename = os.path.basename(pr_branch_file)
+
+    # Print the filenames for verification (optional)
+    print("Main Branch Filename:", main_branch_filename)
+    print("PR Branch Filename:", pr_branch_filename)
+    
+    main_branch_file = os.environ.get("MAIN_FILE")
+    pr_branch_file = os.environ.get("PR_FILE")
     yaml_data1 = load_yaml(main_branch_file)
     yaml_data2 = load_yaml(pr_branch_file)
 
