@@ -7,15 +7,11 @@ git_diff_command="git diff $1 $2 -- functions.yaml"
 diff_output=$($git_diff_command)
 echo $diff_output
 
-# Use 'grep' to extract lines starting with '- name:'
-name_lines=$(echo "$diff_output" | grep '^- name:')
+# Use 'awk' to extract - name values
+name_values=$(echo "$diff_output" | awk '/^- name:/ {print $3}')
 
-# Extract -name values using 'cut' and store them in an array
-names_array=()
-while IFS= read -r line; do
-  name=$(echo "$line" | cut -d ' ' -f 3)
-  names_array+=("$name")
-done <<< "$name_lines"
+# Convert the extracted values to a list
+names_list=($name_values)
 
-# Print the list of -name values
-echo "[${names_array[*]}]"
+# Print the list of - name values
+echo "[${names_list[*]}]"
