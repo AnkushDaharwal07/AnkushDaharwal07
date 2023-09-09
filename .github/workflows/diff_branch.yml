@@ -60,6 +60,11 @@ jobs:
           echo "MAIN_FILE=$MAIN_FILE" >> $GITHUB_ENV
           echo "PR_FILE=$PR_FILE" >> $GITHUB_ENV
           
+      - name: Debug File Paths
+        run: |
+          echo "MAIN_FILE: $MAIN_FILE"
+          echo "PR_FILE: $PR_FILE"
+      
       - name: Run Python Script
         env:
           MAIN_FILE: ${{ env.MAIN_FILE }}
