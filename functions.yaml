@@ -92,3 +92,11 @@ functions:
       - java-group6
     routingOptions:
       mitigatorEnabled: false
+
+  - name: CreateAcount.v6
+    colocatedClusters:
+      - java-group15
+    isolatedClusters:
+      - java-group6
+    routingOptions:
+      mitigatorEnabled: false
