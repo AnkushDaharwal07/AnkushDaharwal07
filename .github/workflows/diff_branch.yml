@@ -11,6 +11,9 @@ on:
 jobs:
   compare-code:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
 
     steps:
       - name: Checkout code
@@ -41,29 +44,45 @@ jobs:
         run: |
           # Navigate to the repository directory
           git diff ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} -- functions.yaml
-
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.x
-      - name: Install dependencies
+      
+      - name: Set executable permission for script
+        run: chmod +x shellscript1.sh
+      
+      - name: Extract -name values
         run: |
-          python -m pip install --upgrade pip
-          pip install pyyaml
+          # Run the shell script and pass the SHA values as arguments
+          ./shellscript1.sh "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}"
 
-      - name: Set MAIN_FILE and PR_FILE
-        id: set-file-paths
+      
+      - name: Print -name values
         run: |
-          # Set the values for MAIN_FILE and PR_FILE
-          MAIN_FILE="${{ github.workspace }}/${{ github.event.pull_request.base.sha }}/functions.yaml"
-          PR_FILE="${{ github.workspace }}/${{ github.event.pull_request.head.sha }}/functions.yaml"
-          echo "MAIN_FILE=$MAIN_FILE" >> $GITHUB_ENV
-          echo "PR_FILE=$PR_FILE" >> $GITHUB_ENV
+          # Access the output from the previous step
+          extracted_names=$(/bin/bash -c "source ./shellscript1.sh ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }}")
+          echo "Extracted -name values: $extracted_names"
+
+
+      # - name: Set up Python
+      #   uses: actions/setup-python@v2
+      #   with:
+      #     python-version: 3.x
+      # - name: Install dependencies
+      #   run: |
+      #     python -m pip install --upgrade pip
+      #     pip install pyyaml
+
+      # - name: Set MAIN_FILE and PR_FILE
+      #   id: set-file-paths
+      #   run: |
+      #     # Set the values for MAIN_FILE and PR_FILE
+      #     MAIN_FILE="${{ github.workspace }}/${{ github.event.pull_request.base.sha }}/functions.yaml"
+      #     PR_FILE="${{ github.workspace }}/${{ github.event.pull_request.head.sha }}/functions.yaml"
+      #     echo "MAIN_FILE=$MAIN_FILE" >> $GITHUB_ENV
+      #     echo "PR_FILE=$PR_FILE" >> $GITHUB_ENV
           
-      - name: Run Python Script
-        env:
-          MAIN_FILE: ${{ env.MAIN_FILE }}
-          PR_FILE: ${{ env.PR_FILE }}
-        run: |
-          # Access the file paths in your Python script
-          python script.py "$MAIN_FILE" "$PR_FILE"
+      # - name: Run Python Script
+      #   env:
+      #     MAIN_FILE: ${{ env.MAIN_FILE }}
+      #     PR_FILE: ${{ env.PR_FILE }}
+      #   run: |
+      #     # Access the file paths in your Python script
+      #     python script.py "$MAIN_FILE" "$PR_FILE"
