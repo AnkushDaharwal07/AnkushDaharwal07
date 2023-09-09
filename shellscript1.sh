@@ -5,6 +5,7 @@ git_diff_command="git diff $1 $2 -- functions.yaml"
 
 # Run the git diff command and capture the output
 diff_output=$($git_diff_command)
+echo $diff_output
 
 # Use 'grep' to extract lines starting with '- name:'
 name_lines=$(echo "$diff_output" | grep '^- name:')
