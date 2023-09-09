@@ -23,6 +23,9 @@ def main():
     yaml_data1 = load_yaml(main_branch_filename)
     yaml_data2 = load_yaml(pr_branch_filename)
 
+    print(yaml_data1)
+    print(yaml_data2)
+
     # Extract the names of functions with different isolatedClusters values
     different_function_names = []
     for func1, func2 in zip(yaml_data1['functions'], yaml_data2['functions']):
