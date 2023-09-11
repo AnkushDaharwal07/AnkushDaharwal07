@@ -48,18 +48,15 @@ jobs:
       - name: Set executable permission for script
         run: chmod +x shellscript1.sh
       
-      - name: Extract -name values
+      - name: Extract + - name lines
+        id: extract-names
         run: |
-          # Run the shell script and pass the SHA values as arguments
-          ./shellscript1.sh "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}"
+          git diff ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} -- functions.yaml | grep '^\+[[:space:]]*- name:' > extracted_lines.txt
+        env:
+          PYTHONIOENCODING: utf-8
 
-      
-      - name: Print -name values
-        run: |
-          # Access the output from the previous step
-          extracted_names=$(/bin/bash -c "source ./shellscript1.sh ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }}")
-          echo "Extracted -name values: $extracted_names"
-
+      - name: Display extracted lines
+        run: cat extracted_lines.txt
 
       # - name: Set up Python
       #   uses: actions/setup-python@v2
