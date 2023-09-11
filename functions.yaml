@@ -8,6 +8,7 @@ functions:
   - name: CreateAcount.v3
     colocatedClusters:
       - java-group25
+
     isolatedClusters:
       - java-group6
     routingOptions:
@@ -44,9 +45,51 @@ functions:
     isolatedClusters:
       - java-group6
       - java-group13
-  - name: CreateAcount.v4
+  - name: CreateAcount.v3
     isolatedClusters:
       - java-group3
     routingOptions:
       mitigatorEnabled: true
-
+  - name: CreateAcount.v9
+    colocatedClusters:
+      - java-group16
+    isolatedClusters:
+      - java-group6
+      - java-group13
+  - name: CreateAcount.v00
+    colocatedClusters:
+      - java-group16
+    isolatedClusters:
+      - java-group6
+      - java-group13
+  - name: CreateAcount.v02
+    colocatedClusters:
+      - java-group16
+    isolatedClusters:
+      - java-group6
+      - java-group13
+  - name: CreateAcount.v04
+    colocatedClusters:
+      - java-group16
+    isolatedClusters:
+      - java-group6
+      - java-group13
+  - name: CreateAcount.v05
+    colocatedClusters:
+      - java-group16
+    isolatedClusters:
+      - java-group6
+      - java-group13
+  - name: CreateAcount.v06
+    colocatedClusters:
+      - java-group16
+    isolatedClusters:
+      - java-group6
+      - java-group13
+  - name: CreateAcount.v5
+    colocatedClusters:
+      - java-group15
+    isolatedClusters:
+      - java-group6
+    routingOptions:
+      mitigatorEnabled: false
