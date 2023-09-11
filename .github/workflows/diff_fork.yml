@@ -45,7 +45,7 @@ jobs:
         run: |
           git diff origin/${{ github.base_ref }} forked/${{ github.head_ref }} -- functions.yaml | grep '^\+[[:space:]]*- name:'
           # git diff ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} -- functions.yaml | grep '^\+[[:space:]]*- name:' > extracted_lines.txt
-          git diff ${{ github.base_ref }} ${{ github.head_ref }} -- functions.yaml | grep '^\+[[:space:]]*- name:' > extracted_lines.txt
+          git diff origin/${{ github.base_ref }} forked/${{ github.head_ref }} -- functions.yaml | grep '^\+[[:space:]]*- name:' > extracted_lines.txt
         env:
           PYTHONIOENCODING: utf-8
 
