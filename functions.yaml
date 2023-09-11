@@ -1,10 +1,10 @@
 functions:
   - name: CreateAcount.v1 
     isolatedClusters: 
-      - java-group6
+      - java-group11
   - name: CreateAcount.v2
     isolatedClusters:
-      - java-group3
+      - java-group11
   - name: CreateAcount.v3
     colocatedClusters:
       - java-group10
