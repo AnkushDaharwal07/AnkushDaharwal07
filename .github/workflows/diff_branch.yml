@@ -6,7 +6,7 @@ on:
       - opened
       - synchronize
     branches:
-      - test2
+      - main
 
 jobs:
   compare-code:
