@@ -4,12 +4,12 @@ functions:
       - java-group6
   - name: CreateAcount.v2
     isolatedClusters:
-      - java-group3
+      - java-group17
   - name: CreateAcount.v3
     colocatedClusters:
-      - java-group10
+      - java-group17
     isolatedClusters:
-      - java-group6
+      - java-group17
     routingOptions:
       mitigatorEnabled: false
   - name: CreateAcount.v4
