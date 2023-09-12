@@ -1,0 +1,59 @@
+name: PR Comparison Workflow
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+    branches:
+      - main
+
+jobs:
+  compare-code:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Display PR branch name
+        run: echo "PR branch is ${{ github.head_ref }}"
+
+      - name: Checkout test2 branch
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Debug
+        run: |
+          echo "Current branch: $(git branch)"
+          echo "Available branches: $(git branch -a)"
+          git remote -v
+          
+      - name: Fetch 'main' and '${{ github.head_ref }}' branches
+        run: |
+          git fetch origin main
+          git fetch origin ${{ github.head_ref }}
+
+      - name: Compare code changes
+        run: |
+          # Navigate to the repository directory
+          git diff ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} -- functions.yaml
+      
+      - name: Set executable permission for script
+        run: chmod +x shellscript1.sh
+      
+      - name: Extract + - name lines
+        id: extract-names
+        run: |
+          git diff ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} -- functions.yaml | grep '^\+[[:space:]]*- name:' > extracted_lines.txt
+        env:
+          PYTHONIOENCODING: utf-8
+
+      - name: Display extracted lines
+        run: cat extracted_lines.txt
+
+
