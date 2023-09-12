@@ -6,7 +6,7 @@ on:
       - opened
       - synchronize
     branches:
-      - test2
+      - main
 
 jobs:
   compare-code:
@@ -24,10 +24,20 @@ jobs:
           echo "Current branch: $(git branch)"
           echo "Available branches: $(git branch -a)"
 
+      - name: Get Forked Branch URL
+        id: get_forked_url
+        run: |
+          pr_number="${{ github.event.pull_request.number }}"
+          forked_repo_url=$(curl -s -H "Authorization: Bearer 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" \
+              "https://api.github.com/repos/${{ github.repository }}/pulls/${pr_number}" \
+              | jq -r '.head.repo.clone_url')
+          echo "::set-output name=forked_url::${forked_repo_url}"
+
       - name: Set Remote URL
         run: |
-          git remote add forked "https://github.com/Apalagiri1304/AnkushDaharwal07.git"
+          git remote add forked "${{ steps.get_forked_url.outputs.forked_url }}"
           git remote -v
+
           
       - name: Fetch 'main' and 'test2' branches
         run: |
