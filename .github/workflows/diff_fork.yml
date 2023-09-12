@@ -28,17 +28,17 @@ jobs:
         id: get_forked_url
         run: |
           pr_number="${{ github.event.pull_request.number }}"
-          forked_repo_url=$(curl -s -H "Authorization: Bearer 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" \
-              "https://api.github.com/repos/${{ github.repository }}/pulls/${pr_number}" \
+          forked_repo_url=$(curl -s -H "Authorization: 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" \
+              "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}" \
               | jq -r '.head.repo.clone_url')
-          echo "::set-output name=forked_url::${forked_repo_url}"
+          echo "FORKED_REPO_URL=${forked_repo_url}" >> $GITHUB_ENV
 
       - name: Set Remote URL
         run: |
-          git remote add forked "${{ steps.get_forked_url.outputs.forked_url }}"
+          forked_url="${{ env.FORKED_REPO_URL }}"
+          git remote add forked "$forked_url"
           git remote -v
 
-          
       - name: Fetch 'main' and 'test2' branches
         run: |
           git fetch origin main
