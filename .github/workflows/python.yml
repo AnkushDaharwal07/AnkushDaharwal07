@@ -37,7 +37,7 @@ jobs:
           pip install pyyaml
 
       - name: Add Execute Permissions to Entrypoint Script
-        run: chmod +x entrypoint.sh
+        run: chmod +x scripts/entrypoint.sh
           
       - name: Add Execute Permissions
         run: chmod +x scripts/pythonscript.py
