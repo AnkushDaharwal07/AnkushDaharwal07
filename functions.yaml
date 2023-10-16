@@ -4,8 +4,8 @@ functions:
       - java-group8
   - name: CreateAcount.v2
     isolatedClusters:
-      - java-group3
-  - name: CreateAcount.v3
+      - java-group4
+  - name: CreateAcount.v4
     colocatedClusters:
       - java-group15
     isolatedClusters:
