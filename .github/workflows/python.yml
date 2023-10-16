@@ -35,6 +35,15 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pyyaml
+          
+      - name: Add Execute Permissions
+        run: chmod +x script.py
+
+      - name: Add Execute Permissions to Entrypoint Script
+        run: chmod +x entrypoint.sh
+        
+      - name: Run Entrypoint Script
+        run: ./entrypoint.sh "$MAIN_FILE" "$PR_FILE"
 
       - name: Run Python Script
         if: steps.compare.outputs.main_file != '' && steps.compare.outputs.pr_file != ''
