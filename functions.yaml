@@ -5,9 +5,9 @@ functions:
   - name: CreateAcount.v2
     isolatedClusters:
       - java-group3
-  - name: CreateAcount.v3
+  - name: CreateAcount.v5
     colocatedClusters:
-      - java-group15
+      - java-group4
     isolatedClusters:
       - java-group6
     routingOptions:
