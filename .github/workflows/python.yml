@@ -9,6 +9,9 @@ jobs:
   run_script:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
       - name: Get PR Branch Name
         id: get_pr_branch
         run: echo "::set-output name=branch::$(echo $GITHUB_REF | awk -F'/' '{print $3}')"
