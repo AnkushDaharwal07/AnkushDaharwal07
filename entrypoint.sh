@@ -1,2 +1,2 @@
 #!/bin/bash
-python script.py "$@"
+python scripts/pythonscript.py "$@"
