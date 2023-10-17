@@ -35,6 +35,9 @@ jobs:
           git checkout pr${{ github.event.pull_request.head.ref }}
           echo "PR_FILE=functions.yaml" >> $GITHUB_ENV
           git checkout main
+          echo $MAIN_FILE
+          echo $PR_FILE
+
 
       - name: Set up Python
         uses: actions/setup-python@v2
@@ -47,7 +50,6 @@ jobs:
           pip install pyyaml
 
       - name: Run Python Script
-        if: steps.compare.outputs.main_file != '' && steps.compare.outputs.pr_file != ''
         env:
           MAIN_FILE: ${{ steps.compare.outputs.main_file }}
           PR_FILE: ${{ steps.compare.outputs.pr_file }}
