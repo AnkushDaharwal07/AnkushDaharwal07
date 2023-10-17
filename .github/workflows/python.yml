@@ -30,7 +30,9 @@ jobs:
         run: |
           PR_BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
           echo "MAIN_FILE=functions.yaml" >> $GITHUB_ENV
-          git checkout pr${{ github.event.pull_request.number }}
+          git checkout main
+          git fetch origin pull/${{ github.event.pull_request.number }}/head:pr${{ github.event.pull_request.head.ref }}
+          git checkout pr${{ github.event.pull_request.head.ref }}
           echo "PR_FILE=functions.yaml" >> $GITHUB_ENV
           git checkout main
 
