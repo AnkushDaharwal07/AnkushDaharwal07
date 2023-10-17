@@ -22,12 +22,13 @@ jobs:
           PR_BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
           echo "::set-output name=main_file::functions.yaml"
           echo "::set-output name=pr_file::main:${PR_BRANCH_NAME}/functions.yaml" 
-
+  
       - name: Set Output Variables
         id: set_output_vars
         run: |
+          PR_BRANCH_NAME="${{ steps.compare.outputs.pr_file }}"
           echo "MAIN_FILE=functions.yaml" >> $GITHUB_ENV
-          echo "PR_FILE=main:${PR_BRANCH_NAME}/functions.yaml" >> $GITHUB_ENV
+          echo "PR_FILE=${PR_BRANCH_NAME}" >> $GITHUB_ENV
 
       - name: Set up Python
         uses: actions/setup-python@v2
