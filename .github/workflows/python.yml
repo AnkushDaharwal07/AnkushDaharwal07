@@ -19,7 +19,7 @@ jobs:
       - name: Compare functions.yaml
         id: compare
         run: |
-          PR_BRANCH_NAME="${{ steps.get_pr_branch.outputs.branch }}"
+          PR_BRANCH_NAME="${{ github.event.pull_request.head.ref }}""
           echo "::set-output name=main_file::functions.yaml"
           echo "::set-output name=pr_file::main:${PR_BRANCH_NAME}/functions.yaml" 
 
