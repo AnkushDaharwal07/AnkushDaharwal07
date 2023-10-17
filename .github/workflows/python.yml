@@ -25,19 +25,47 @@ jobs:
       #     # echo "::set-output name=main_file::functions.yaml"
       #     # echo "::set-output name=pr_file::main:${PR_BRANCH_NAME}/functions.yaml" 
   
+      # - name: Set Output Variables
+      #   id: set_output_vars
+      #   run: |
+      #     PR_BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
+      #     echo "MAIN_FILE=functions.yaml" >> $GITHUB_ENV
+      #     git checkout main
+      #     git fetch origin pull/${{ github.event.pull_request.number }}/head:pr${{ github.event.pull_request.head.ref }}
+      #     git checkout pr${{ github.event.pull_request.head.ref }}
+      #     echo "PR_FILE=functions.yaml" >> $GITHUB_ENV
+      #     git checkout main
+      #     echo $MAIN_FILE
+      #     echo $PR_FILE
+
       - name: Set Output Variables
         id: set_output_vars
         run: |
           PR_BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
           echo "MAIN_FILE=functions.yaml" >> $GITHUB_ENV
+
+          # Checkout the main branch
           git checkout main
+
+          # Fetch the PR branch
           git fetch origin pull/${{ github.event.pull_request.number }}/head:pr${{ github.event.pull_request.head.ref }}
+
+          # Checkout the PR branch
           git checkout pr${{ github.event.pull_request.head.ref }}
           echo "PR_FILE=functions.yaml" >> $GITHUB_ENV
           git checkout main
-          echo $MAIN_FILE
-          echo $PR_FILE
 
+      - name: Compare Functions.yaml
+        run: |
+          MAIN_FILE=$MAIN_FILE
+          PR_FILE=$PR_FILE
+
+          # Compare the functions.yaml files
+          if diff "$MAIN_FILE" "$PR_FILE"; then
+            echo "Functions.yaml files are identical."
+          else
+            echo "Functions.yaml files are different."
+          fi
 
       - name: Set up Python
         uses: actions/setup-python@v2
