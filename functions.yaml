@@ -9,7 +9,7 @@ functions:
     colocatedClusters:
       - java-group15
     isolatedClusters:
-      - java-group6
+      - java-group4
     routingOptions:
       mitigatorEnabled: false
   - name: CreateAcount.v4
