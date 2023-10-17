@@ -52,5 +52,7 @@ jobs:
           MAIN_FILE: ${{ steps.compare.outputs.main_file }}
           PR_FILE: ${{ steps.compare.outputs.pr_file }}
         run: |
-          # Access the file paths in your Python script
-          python scripts/pythonscript.py "$MAIN_FILE" "$PR_FILE"
+          echo "MainFile: $MAIN_FILE"
+          echo "PRFile: $PR_FILE"
+          python script.py "$MAIN_FILE" "$PR_FILE"
+          echo "python script successful"
