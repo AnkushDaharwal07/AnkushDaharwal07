@@ -4,7 +4,7 @@ functions:
       - java-group8
   - name: CreateAcount.v2
     isolatedClusters:
-      - java-group3
+      - java-group54
   - name: CreateAcount.v3
     colocatedClusters:
       - java-group15
