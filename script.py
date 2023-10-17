@@ -18,13 +18,13 @@ def main():
     print("Main Branch Filename:", main_branch_filename)
     print("PR Branch Filename:", pr_branch_filename)
     
-    main_branch_file = os.environ.get("MAIN_FILE")
-    pr_branch_file = os.environ.get("PR_FILE")
+    #main_branch_file = os.environ.get("MAIN_FILE")
+    #pr_branch_file = os.environ.get("PR_FILE")
     yaml_data1 = load_yaml(main_branch_filename)
     yaml_data2 = load_yaml(pr_branch_filename)
 
-    print(yaml_data1)
-    print(yaml_data2)
+    #print(yaml_data1)
+    #print(yaml_data2)
 
     # Extract the names of functions with different isolatedClusters values
     different_function_names = []
@@ -40,5 +40,17 @@ def main():
     for name in different_function_names:
         print("Name:", name)
 
+#if __name__ == "__main__":
+#     main()
+
+    output_filename = "functions.txt"
+
+    with open(output_filename, "w") as output_file:
+        for name in different_function_names:
+            output_file.write(name + "\n")
+
 if __name__ == "__main__":
+    if not os.path.exists("functions.txt"):
+        with open("functions.txt", "w"):
+            pass  # Create the file if it doesn't exist
     main()
