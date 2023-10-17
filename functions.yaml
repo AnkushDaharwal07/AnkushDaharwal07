@@ -14,7 +14,7 @@ functions:
       mitigatorEnabled: false
   - name: CreateAcount.v4
     colocatedClusters:
-      - java-group15
+      - java-group4
     isolatedClusters:
       - java-group6
       - java-group12
