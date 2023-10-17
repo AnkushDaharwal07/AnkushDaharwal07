@@ -49,8 +49,9 @@ jobs:
       - name: Extract + - name lines
         id: extract-names
         run: |
+          echo "" > extracted_lines.txt
           diff_output=$(git diff ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} -- functions.yaml)
-          if [[ "$diff_output" == *"- name:"* ]]; then
+          if [[ "$diff_output" == *"+ - name:"* ]]; then
             echo "Changes in - name lines found. Running the command."
             git diff ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} -- functions.yaml | grep '^\+[[:space:]]*- name:' > extracted_lines.txt
           else
