@@ -18,19 +18,19 @@ jobs:
         id: get_pr_branch
         run: echo "::set-output name=branch::$(echo $GITHUB_REF | awk -F'/' '{print $3}')"
 
-      - name: Compare functions.yaml
-        id: compare
-        run: |
-          PR_BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
-          # echo "::set-output name=main_file::functions.yaml"
-          # echo "::set-output name=pr_file::main:${PR_BRANCH_NAME}/functions.yaml" 
+      # - name: Compare functions.yaml
+      #   id: compare
+      #   run: |
+      #     PR_BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
+      #     # echo "::set-output name=main_file::functions.yaml"
+      #     # echo "::set-output name=pr_file::main:${PR_BRANCH_NAME}/functions.yaml" 
   
       - name: Set Output Variables
         id: set_output_vars
         run: |
-          PR_BRANCH_NAME="${{ steps.compare.outputs.pr_file }}"
+          PR_BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
           echo "MAIN_FILE=functions.yaml" >> $GITHUB_ENV
-          git checkout pr${{ github.event.pull_request.head.ref }}
+          git checkout pr${{ github.event.pull_request.number }}
           echo "PR_FILE=functions.yaml" >> $GITHUB_ENV
           git checkout main
 
