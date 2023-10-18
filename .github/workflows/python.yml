@@ -84,11 +84,14 @@ jobs:
           PR_FILE_CONTENT=$(cat functions.yaml)
           git checkout main
 
-          echo "MainFile: $MAIN_FILE_CONTENT"
-          echo "PRFile: $PR_FILE_CONTENT"      
-          echo "$MAIN_FILE_CONTENT" > main.yaml
-          echo "$PR_FILE_CONTENT" > pr.yaml
+          # Convert the string content to YAML format
+          MAIN_FILE_YAML=$(echo "$MAIN_FILE_CONTENT" | yq -Y .)
+          PR_FILE_YAML=$(echo "$PR_FILE_CONTENT" | yq -Y .)
+      
+          # Write the YAML content to files
+          echo "$MAIN_FILE_YAML" > main.yaml
+          echo "$PR_FILE_YAML" > pr.yaml
 
-          python script.py "$MAIN_FILE_CONTENT" "$PR_FILE_CONTENT"
+          python script.py main.yaml pr.yaml
   
           echo "python script successful"
