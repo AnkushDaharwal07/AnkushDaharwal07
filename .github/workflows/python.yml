@@ -77,12 +77,9 @@ jobs:
           git checkout main
           
       - name: Run Python Script
-        env:
-          MAIN_FILE: ${{ steps.set-environment-variables.outputs.MAIN_FILE_CONTENT }}
-          PR_FILE: ${{ steps.set-environment-variables.outputs.PR_FILE_CONTENT }}
         run: |
-          echo "MainFile: $MAIN_FILE"
+          echo "MainFile: $MAIN_FILE_CONTENT"
           echo "PRFile: $PR_FILE"          
-          python script.py "$MAIN_FILE" "$PR_FILE"
+          python script.py "$MAIN_FILE_CONTENT" "$PR_FILE_CONTENT"
   
           echo "python script successful"
