@@ -70,10 +70,10 @@ jobs:
       - name: Set Main and PR YAML as environment variables
         id: set-environment-variables
         run: |
-          echo "MAIN_FILE_CONTENT=$(cat functions.yaml)" >> $GITHUB_ENV
+          MAIN_FILE_CONTENT=$(cat functions.yaml)
           git fetch origin pull/${{ github.event.pull_request.number }}/head:pr${{ github.event.pull_request.number }}
           git checkout pr${{ github.event.pull_request.number }}
-          echo "PR_FILE_CONTENT=$(cat functions.yaml)" >> $GITHUB_ENV
+          PR_FILE_CONTENT=$(cat functions.yaml)
           git checkout main
           
       - name: Run Python Script
