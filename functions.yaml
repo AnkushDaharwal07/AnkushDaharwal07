@@ -1,7 +1,7 @@
 functions:
   - name: CreateAcount.v1 
     isolatedClusters: 
-      - java-group8
+      - java-group35345
   - name: CreateAcount.v2
     isolatedClusters:
       - java-group3
