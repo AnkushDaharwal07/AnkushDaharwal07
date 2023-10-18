@@ -1,17 +1,16 @@
 import yaml
 import os
 
-def load_yaml(yaml_content):
-    return yaml.safe_load(yaml_content)
+def load_yaml(file_path):
+    with open(file_path, 'r') as yaml_file:
+        return yaml.safe_load(yaml_file)
 
 def main():
-    main_branch_content = os.environ.get("MAIN_FILE")
-    pr_branch_content = os.environ.get("PR_FILE")
+    main_branch_file = sys.argv[1]
+    pr_branch_file = sys.argv[2]
 
-    if main_branch_content and pr_branch_content:
-        main_yaml = load_yaml(main_branch_content)
-        pr_yaml = load_yaml(pr_branch_content)
-
+    main_yaml = load_yaml(main_branch_file)
+    pr_yaml = load_yaml(pr_branch_file)
         # Extract the names of functions with different isolatedClusters values
         different_function_names = []
         for func1, func2 in zip(main_yaml['functions'], pr_yaml['functions']):
