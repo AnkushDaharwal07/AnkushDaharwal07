@@ -9,8 +9,9 @@ def main():
     main_branch_file = sys.argv[1]
     pr_branch_file = sys.argv[2]
 
-    main_yaml = load_yaml(main_branch_file)
-    pr_yaml = load_yaml(pr_branch_file)
+    if main_branch_file and pr_branch_file:
+        main_yaml = load_yaml(main_branch_file)
+        pr_yaml = load_yaml(pr_branch_file)
         # Extract the names of functions with different isolatedClusters values
         different_function_names = []
         for func1, func2 in zip(main_yaml['functions'], pr_yaml['functions']):
