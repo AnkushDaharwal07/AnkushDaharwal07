@@ -1,5 +1,6 @@
 import yaml
-import os
+import sys
+
 
 def load_yaml(file_path):
     with open(file_path, 'r') as yaml_file:
