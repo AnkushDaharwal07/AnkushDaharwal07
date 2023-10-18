@@ -83,14 +83,10 @@ jobs:
           git checkout pr${{ github.event.pull_request.number }}
           PR_FILE_CONTENT=$(cat functions.yaml)
           git checkout main
-
-          # Convert the string content to YAML format
-          MAIN_FILE_YAML=$(echo "$MAIN_FILE_CONTENT" | yq -Y .)
-          PR_FILE_YAML=$(echo "$PR_FILE_CONTENT" | yq -Y .)
-      
+          
           # Write the YAML content to files
-          echo "$MAIN_FILE_YAML" > main.yaml
-          echo "$PR_FILE_YAML" > pr.yaml
+          echo "$MAIN_FILE_CONTENT" | yq -o yaml '.' > main.yaml
+          echo "$PR_FILE_CONTENT" | yq -o yaml '.' > pr.yaml
 
           python script.py main.yaml pr.yaml
   
