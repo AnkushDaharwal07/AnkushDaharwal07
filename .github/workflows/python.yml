@@ -67,19 +67,25 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyyaml
           
-      - name: Set Main and PR YAML as environment variables
-        id: set-environment-variables
+      # - name: Set Main and PR YAML as environment variables
+      #   id: set-environment-variables
+      #   run: |
+      #     MAIN_FILE_CONTENT=$(cat functions.yaml)
+      #     git fetch origin pull/${{ github.event.pull_request.number }}/head:pr${{ github.event.pull_request.number }}
+      #     git checkout pr${{ github.event.pull_request.number }}
+      #     PR_FILE_CONTENT=$(cat functions.yaml)
+      #     git checkout main
+          
+      - name: Run Python Script
         run: |
           MAIN_FILE_CONTENT=$(cat functions.yaml)
           git fetch origin pull/${{ github.event.pull_request.number }}/head:pr${{ github.event.pull_request.number }}
           git checkout pr${{ github.event.pull_request.number }}
           PR_FILE_CONTENT=$(cat functions.yaml)
           git checkout main
-          
-      - name: Run Python Script
-        run: |
+
           echo "MainFile: $MAIN_FILE_CONTENT"
-          echo "PRFile: $PR_FILE"          
+          echo "PRFile: $PR_FILE_CONTENT"          
           python script.py "$MAIN_FILE_CONTENT" "$PR_FILE_CONTENT"
   
           echo "python script successful"
