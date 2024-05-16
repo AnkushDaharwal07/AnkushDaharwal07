@@ -67,22 +67,27 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyyaml
           
-      - name: Set Main and PR YAML as environment variables
-        id: set-environment-variables
-        run: |
-          echo "MAIN_FILE_CONTENT=$(cat functions.yaml)" >> $GITHUB_ENV
-          git fetch origin pull/${{ github.event.pull_request.number }}/head:pr${{ github.event.pull_request.number }}
-          git checkout pr${{ github.event.pull_request.number }}
-          echo "PR_FILE_CONTENT=$(cat functions.yaml)" >> $GITHUB_ENV
-          git checkout main
+      # - name: Set Main and PR YAML as environment variables
+      #   id: set-environment-variables
+      #   run: |
+      #     MAIN_FILE_CONTENT=$(cat functions.yaml)
+      #     git fetch origin pull/${{ github.event.pull_request.number }}/head:pr${{ github.event.pull_request.number }}
+      #     git checkout pr${{ github.event.pull_request.number }}
+      #     PR_FILE_CONTENT=$(cat functions.yaml)
+      #     git checkout main
           
       - name: Run Python Script
-        env:
-          MAIN_FILE: ${{ steps.set-environment-variables.outputs.MAIN_FILE_CONTENT }}
-          PR_FILE: ${{ steps.set-environment-variables.outputs.PR_FILE_CONTENT }}
         run: |
-          echo "MainFile: $MAIN_FILE"
-          echo "PRFile: $PR_FILE"          
-          python script.py "$MAIN_FILE" "$PR_FILE"
+          MAIN_FILE_CONTENT=$(cat functions.yaml)
+          git fetch origin pull/${{ github.event.pull_request.number }}/head:pr${{ github.event.pull_request.number }}
+          git checkout pr${{ github.event.pull_request.number }}
+          PR_FILE_CONTENT=$(cat functions.yaml)
+          git checkout main
+          
+          # Write the YAML content to files
+          echo "$MAIN_FILE_CONTENT" | yq -o yaml '.' > main.yaml
+          echo "$PR_FILE_CONTENT" | yq -o yaml '.' > pr.yaml
+
+          python script.py main.yaml pr.yaml
   
           echo "python script successful"
